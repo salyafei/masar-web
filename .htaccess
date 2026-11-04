@@ -1,0 +1,11 @@
+Options -MultiViews
+RewriteEngine On
+# Send http to https (skip certificate validation paths)
+RewriteCond %{HTTPS} off
+RewriteCond %{REQUEST_URI} !^/\.well-known/
+RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+# Single-page app: serve index.html for app routes that are not real files or folders
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_URI} !^/\.well-known/
+RewriteRule ^ /index.html [L]
